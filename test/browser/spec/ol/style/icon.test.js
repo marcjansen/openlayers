@@ -376,6 +376,20 @@ describe('ol.style.Icon', function () {
       iconStyle.setWidth(100);
       expect(iconStyle.getWidth()).to.eql(100);
     });
+    it('width and scale are always in sync', function () {
+      const iconStyle = new Icon({
+        src,
+        imgSize: [1, 1], // need to provide the natural w and h of the image
+      });
+      expect(iconStyle.getScale()).to.eql(1);
+      iconStyle.setWidth(3); // scale both, only one provided
+      expect(iconStyle.getScale()).to.eql([3, 3]);
+      iconStyle.setWidth(undefined); // reset
+      expect(iconStyle.getScale()).to.eql([1, 1]);
+      iconStyle.setWidth(3); // scale as provided, because both width…
+      iconStyle.setHeight(7); // …and height have been set
+      expect(iconStyle.getScale()).to.eql([3, 7]);
+    });
   });
 
   describe('#height', function () {
@@ -396,6 +410,20 @@ describe('ol.style.Icon', function () {
       expect(iconStyle.getHeight()).to.eql(20);
       iconStyle.setHeight(200);
       expect(iconStyle.getHeight()).to.eql(200);
+    });
+    it('height and scale are always in sync', function () {
+      const iconStyle = new Icon({
+        src,
+        imgSize: [1, 1], // need to provide the natural w and h of the image
+      });
+      expect(iconStyle.getScale()).to.eql(1);
+      iconStyle.setHeight(4.2); // scale both, only one provided
+      expect(iconStyle.getScale()).to.eql([4.2, 4.2]);
+      iconStyle.setHeight(undefined); // reset
+      expect(iconStyle.getScale()).to.eql([1, 1]);
+      iconStyle.setHeight(4); // scale as provided, because both height …
+      iconStyle.setWidth(0.5); // … and width have been set
+      expect(iconStyle.getScale()).to.eql([0.5, 4]);
     });
   });
 });

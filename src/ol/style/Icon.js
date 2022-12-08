@@ -292,12 +292,21 @@ class Icon extends ImageStyle {
    */
   updateScaleFromWidthAndHeight(width, height) {
     const image = this.getImage(1);
+    let imgWidth = image.width;
+    let imgHeight = image.height;
+    if (this.imgSize_ !== undefined) {
+      imgWidth = this.imgSize_[0];
+      imgHeight = this.imgSize_[1];
+    }
+
     if (width !== undefined && height !== undefined) {
-      this.setScale([width / image.width, height / image.height]);
+      this.setScale([width / imgWidth, height / imgHeight]);
     } else if (width !== undefined) {
-      this.setScale([width / image.width, width / image.width]);
+      const scaleFromWidth = width / imgWidth;
+      this.setScale([scaleFromWidth, scaleFromWidth]);
     } else if (height !== undefined) {
-      this.setScale([height / image.height, height / image.height]);
+      const scaleFromHeight = height / imgHeight;
+      this.setScale([scaleFromHeight, scaleFromHeight]);
     } else {
       this.setScale([1, 1]);
     }
